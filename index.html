@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>هدية لمدرس اللغة العربية للشكر — كتاب</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f1724;             /* dark background base */
+      --card:#0b1220;           /* card */
+      --muted:#9aa7b2;         
+      --accent:#c59d5f;        /* gold accent */
+      --glass:rgba(255,255,255,0.04);
+      --radius:18px;
+      --max-width:980px;
+      --content-padding:20px;
+    }
+
+    /* light-mode variables (will be toggled) */
+    :root.light{
+      --bg:#f6f7f9;
+      --card:#ffffff;
+      --muted:#4b5563;
+      --glass:rgba(12,18,28,0.03);
+    }
+
+    /* eye-protect mode (gentle warm) */
+    :root.eyefriendly{
+      --bg:#f7efe6;
+      --card:#fffaf3;
+      --muted:#5b5045;
+    }
+
+    html,body{height:100%;}
+    body{
+      margin:0;
+      font-family:'Cairo',system-ui,Arial,Helvetica;
+      background:radial-gradient(1200px 600px at 10% 10%, rgba(197,157,95,0.06), transparent), var(--bg);
+      color:var(--muted);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:32px;
+      box-sizing:border-box;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:var(--max-width);
+      display:grid;
+      grid-template-columns: 1fr 380px;
+      gap:28px;
+      align-items:start;
+    }
+
+    /* stack on small screens */
+    @media (max-width:880px){
+      .wrap{grid-template-columns:1fr;}
+    }
+
+    .hero{
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), transparent), var(--card);
+      border-radius:var(--radius);
+      padding:calc(var(--content-padding) * 1.2);
+      box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+      border:1px solid rgba(255,255,255,0.04);
+    }
+
+    .title{
+      color:var(--accent);
+      font-weight:700;
+      font-size:1.8rem;
+      margin:0 0 6px 0;
+    }
+    .subtitle{margin:0 0 16px 0;color:var(--muted);font-weight:400}
+
+    .meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+    .chip{background:var(--glass);padding:8px 12px;border-radius:12px;font-size:0.9rem}
+
+    .actions{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{
+      background:linear-gradient(90deg, var(--accent), #ffd89b);
+      color:#0b0b0b;
+      border:0;padding:10px 14px;border-radius:12px;font-weight:600;cursor:pointer;box-shadow:0 6px 18px rgba(197,157,95,0.12);
+    }
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+
+    .right{
+      position:relative;
+      min-height:320px;
+      display:flex;flex-direction:column;gap:12px;
+    }
+
+    .preview{
+      flex:1;
+      border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.04);background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      display:flex;flex-direction:column;
+    }
+    .preview iframe{width:100%;height:100%;border:0;min-height:420px}
+
+    .controls{display:flex;gap:8px;padding:12px;background:transparent;align-items:center}
+
+    footer{display:flex;justify-content:space-between;align-items:center;padding-top:10px;color:var(--muted);font-size:0.9rem}
+
+    /* accessibility helpers */
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+    /* print: hide controls, make content clean */
+    @media print{
+      body{background:white;color:#111}
+      .controls, .actions, .theme-toggle {display:none}
+      .wrap{box-shadow:none}
+    }
+
+    /* small tweaks */
+    h3{margin:0;font-size:1.1rem}
+    p{line-height:1.6}
+  </style>
+</head>
+<body>
+  <div class="wrap" role="main">
+    <section class="hero" aria-labelledby="gift-title">
+      <h1 id="gift-title" class="title">هدية إلى مدرّستنا للغة العربية كشكر على انجازه</h1>
+      <p class="subtitle">صفحة بسيطة وأنيقة لعرض وتحميل الكتاب كهدية — مناسبة للهواتف وتراعي راحة العين.</p>
+
+      <div class="meta" aria-hidden="false">
+        <div class="chip">📚 كتاب: <strong id="book-name">اشجار و اغتيال المرزوق.pdf</strong></div>
+        <div class="chip">🎁 مُهدى إلى: <strong id="teacher-name">استاذ العربية </strong></div>
+        <div class="chip">🕒 التاريخ: <span id="date-now"></span></div>
+      </div>
+
+      <div class="actions">
+        <button class="btn" id="downloadBtn">⬇ تحميل الكتاب</button>
+        <button class="btn ghost" id="printBtn">🖨 طباعة</button>
+        <button class="btn ghost" id="shareBtn">🔗 مشاركة</button>
+        <button class="btn ghost theme-toggle" id="themeToggle">🌓 تبديل الوضع</button>
+        <button class="btn ghost" id="eyeBtn">👁 راحة العين</button>
+      </div>
+
+      <hr style="margin:18px 0;border:0;border-top:1px solid rgba(255,255,255,0.03)">
+
+      <h3>ملاحظات:</h3>
+      <p>إلى أستاذي الفاضل،
+أهديك هذا العمل المتواضع تعبيرًا عن تقديري وامتناني لجهودك الكبيرة في تعليمنا وتوجيهنا.
+شكرًا لك على صبرك، وعلى كل لحظة منحتنا فيها من علمك وخبرتك.
+أتمنى أن تكون هذه الهدية البسيطة تعبر ولو بالقليل مما تستحق.
+مع فائق الاحترام والتقدير — تلميذتك نورة عادل. </p>
+    </section>
+
+    <aside class="right" aria-label="معاينة الكتاب">
+      <div class="preview" id="preview">
+        <!-- ضع ملف الـ PDF في المسار assets/book.pdf أو عدّل الرابط في أسفل الملف -->
+        <iframe id="pdfFrame" src="book.pdf#view=FitH" title="معاينة الكتاب (PDF)"></iframe>
+      </div>
+
+      <div class="controls">
+        <label for="zoom" class="sr-only">تكبير المعاينة</label>
+        <input id="zoom" type="range" min="50" max="200" value="100" aria-label="تحكم التكبير" />
+        <div style="flex:1"></div>
+        <small>جهازك: <span id="agent"></span></small>
+      </div>
+
+      <footer>
+        <span>تصميم أنيق • قابل للتخصيص</span>
+        <small>لا تنسى أن تضيف غلافاً رائعاً للكتاب ✨</small>
+      </footer>
+    </aside>
+  </div>
+
+  <script>
+    (function(){
+      // إعداد التاريخ الصغير
+      const d = new Date();
+      document.getElementById('date-now').textContent = d.toLocaleDateString('ar-EG');
+
+      // عناصر
+      const downloadBtn = document.getElementById('downloadBtn');
+      const printBtn = document.getElementById('printBtn');
+      const shareBtn = document.getElementById('shareBtn');
+      const themeToggle = document.getElementById('themeToggle');
+      const eyeBtn = document.getElementById('eyeBtn');
+      const pdfFrame = document.getElementById('pdfFrame');
+      const zoom = document.getElementById('zoom');
+      const agent = document.getElementById('agent');
+
+      agent.textContent = navigator.userAgent.match(/\(([^)]+)\)/)?.[1] || 'Unknown';
+
+      // تحميل — تأكد من وضع الملف في assets/book.pdf أو غيّر الرابط هنا
+      const pdfUrl = 'assets/book.pdf';
+      downloadBtn.addEventListener('click',()=>{
+        const a = document.createElement('a');
+        a.href = pdfUrl;
+        a.download = '';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      });
+
+      // طباعة
+      printBtn.addEventListener('click',()=>{
+        // حاول فتح الملف في نافذة ثم طباعة
+        const w = window.open(pdfUrl);
+        if(w) setTimeout(()=>w.print(),600);
+      });
+
+      // مشاركة باستخدام Web Share API (للأجهزة المدعومة)
+      shareBtn.addEventListener('click',async ()=>{
+        const shareData = {title: document.getElementById('gift-title').textContent, text:'هدية من نورة عادل — كتاب', url: location.href};
+        if(navigator.share){
+          try{ await navigator.share(shareData); } catch(e) { alert('لم تتم المشاركة.'); }
+        } else {
+          // fallback: نسخ الرابط للحافظة
+          try{
+            await navigator.clipboard.writeText(location.href);
+            alert('تم نسخ رابط الصفحة إلى الحافظة.');
+          } catch(e){ prompt('انسخ الرابط يدوياً:', location.href); }
+        }
+      });
+
+      // Theme toggle: dark <-> light (يحفظ في localStorage)
+      const root = document.documentElement;
+      function applyTheme(name){
+        root.classList.remove('light','eyefriendly');
+        if(name) root.classList.add(name);
+        localStorage.setItem('page-theme', name || '');
+      }
+      themeToggle.addEventListener('click',()=>{
+        if(root.classList.contains('light')) applyTheme(''); else applyTheme('light');
+      });
+      // Eye friendly toggle
+      eyeBtn.addEventListener('click',()=>{
+        if(root.classList.contains('eyefriendly')) applyTheme(''); else applyTheme('eyefriendly');
+      });
+      // restore theme
+      const saved = localStorage.getItem('page-theme'); if(saved) applyTheme(saved);
+
+      // Zoom control (يغير مقياس iframe)
+      zoom.addEventListener('input',()=>{
+        const scale = zoom.value/100;
+        pdfFrame.style.transform = `scale(${scale})`;
+        pdfFrame.style.transformOrigin = 'top right';
+      });
+
+      // تحسين للواقع: إذا لم يُعثر على PDF، نعرض رسالة مباشرة داخل الصفحة
+      fetch(pdfUrl, {method:'HEAD'}).then(r=>{
+        if(!r.ok){
+          // استبدال الإطار بنبذة خطأ مرئية
+          const preview = document.getElementById('preview');
+          preview.innerHTML = `<div style="padding:28px;text-align:center"><h3>لم يتم العثور على الملف</h3><p>ضع ملف الكتاب في المسار <code>assets/book.pdf</code> أو عدّل قيمة <code>pdfUrl</code> في الكود.</p></div>`;
+        }
+      }).catch(()=>{});
+
+      // إعدادات إمكانية الوصول: تقليل الحركة للمستخدمين الذين يختارون تقليل الحركة
+      const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if(mq.matches){ document.documentElement.style.scrollBehavior='auto'; }
+
+      // تفعيل التكبير التلقائي على الأجهزة الصغيرة
+      if(window.innerWidth < 480){ zoom.value = 120; zoom.dispatchEvent(new Event('input')) }
+
+    })();
+  </script>
+
+  <!--
+    تعليمات سريعة:
+    1) ضع ملف الكتاب باسم "book.pdf" داخل مجلد assets بالنسبة للمكان الذي تحفظ فيه هذا الملف.
+    2) لتعديل اسم المهدى او اسم الكتاب: غير نصوص العناصر ذات id (teacher-name) و (book-name).
+    3) يمكنك تغيير الألوان عبر متغيرات :root في أعلى الـ CSS.
+    4) إن أردت نسخة React أو صفحة متعددة، أخبرني وسأجهزها.
+  -->
+  <div id="splash" style="position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;z-index:9999;color:var(--accent);font-size:1.8rem;font-weight:700;transition:opacity .6s ease;">
+    <div>من التلميذة <span style="color:#fff">نورة عادل</span></div>
+    <div style="margin-top:6px;font-size:1.3rem;color:var(--muted)">إلى أستاذ العربية</div>
+  </div>
+
+  <script>
+    // شاشة البداية
+    window.addEventListener('load', ()=>{
+      const sp = document.getElementById('splash');
+      setTimeout(()=>{
+        sp.style.opacity = '0';
+        setTimeout(()=> sp.remove(), 600);
+      }, 1800);
+    });
+  </script>
+
+</body>
+</html>
